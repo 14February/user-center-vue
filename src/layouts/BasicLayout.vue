@@ -35,7 +35,7 @@ import GlobalHeader from '../components/GlobalHeader.vue'
     /* 从左到右渐变：灰色到白色 */
     background: linear-gradient(to right, #efefef, #fff);
 }
-/* #basicLayout .header {
-
-} */
+#basicLayout .header {
+  background-color: #fff;
+}
 </style>

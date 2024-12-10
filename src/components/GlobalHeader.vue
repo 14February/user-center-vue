@@ -13,11 +13,17 @@
         ><a-menu
           v-model:selectedKeys="current"
           mode="horizontal"
+          @click="doMenuClick"
           :items="items"
       /></a-col>
       <a-col flex="80px">
         <div class="userLoginStatus">
-          <a-button type="primary" href="/user/login">登录</a-button>
+          <div v-if="loginUserStore.loginUser.phone">
+            {{ loginUserStore.loginUser.phone }}
+          </div>  
+          <div v-else>
+            <a-button type="primary" href="/user/login">登录</a-button>
+          </div>
         </div>
       </a-col>
     </a-row>
@@ -28,6 +34,10 @@ import { h, ref } from 'vue';
 import {CrownOutlined, HomeOutlined} from '@ant-design/icons-vue';
 import { MenuProps } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
+import { useLoginUserStore } from '../store/useLoginUserStore';
+
+
+const loginUserStore = useLoginUserStore();
 
 const router = useRouter();
 
@@ -39,6 +49,13 @@ const doMenuClick = ({ key }: { key: string }) => {
 };
 
 const current = ref<string[]>(['mail']);
+
+// 监听路由变化，更新当前菜单选中状态
+router.afterEach((to, from, failure) => {
+  current.value = [to.path];
+});
+
+
 const items = ref<MenuProps['items']>([
   {
     key: '/',
@@ -80,10 +97,11 @@ const items = ref<MenuProps['items']>([
 }
 
 .title {
-  color: #fff;
+  color: black;
   font-size: 10px;
   margin-left: 16px;
 }
+
 
 </style>
 
